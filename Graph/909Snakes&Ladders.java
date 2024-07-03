@@ -1,6 +1,4 @@
-package Graph;
-
-public class Solution {
+class Solution {
     public class Graph {
         public int value;
         public int snake;
@@ -20,34 +18,35 @@ public class Solution {
     public int snakesAndLadders(int[][] board) {
         int rows = board.length;
         int cols = board.length;
-        int total = (int)Math.pow(rows, 2);
+        int total = (int) Math.pow(rows, 2);
         boolean left = true;
         HashMap<Integer, Graph> map = new HashMap<Integer, Graph>();
-        for(int i = rows-1; i >=0; i--){
-            if(left){
-                for(int j = 0; j < cols; j++){
-                    int val = (rows-1-i) * cols + j + 1;
+        for (int i = rows - 1; i >= 0; i--) {
+            if (left) {
+                for (int j = 0; j < cols; j++) {
+                    int val = (rows - 1 - i) * cols + j + 1;
                     Graph g = new Graph(val, board[i][j]);
                     map.put(val, g);
                 }
                 left = false;
-            }
-            else{
-                for(int j = cols-1; j >= 0; j--){
-                    int val = (rows-1-i) * cols + cols - j;
+            } else {
+                for (int j = cols - 1; j >= 0; j--) {
+                    int val = (rows - 1 - i) * cols + cols - j;
                     Graph g = new Graph(val, board[i][j]);
                     map.put(val, g);
                 }
                 left = true;
             }
         }
-        for(Map.Entry<Integer, Graph> entry: map.entrySet()){
+        for (Map.Entry<Integer, Graph> entry : map.entrySet()) {
             int key = entry.getKey();
             Graph g = entry.getValue();
-            for(int i = key+1; i <= key+6 && i <= total; i++){
+            for (int i = key + 1; i <= key + 6 && i <= total; i++) {
                 Graph x = map.get(i);
-                if(x.snake != -1) g.addAdj(map.get(x.snake));
-                else g.addAdj(x);
+                if (x.snake != -1)
+                    g.addAdj(map.get(x.snake));
+                else
+                    g.addAdj(x);
             }
         }
 
@@ -56,21 +55,20 @@ public class Solution {
         Pair start = new Pair(map.get(1), 0);
         bfs.add(start);
         visited.add(map.get(1));
-        while(!(bfs.isEmpty())){
+        while (!(bfs.isEmpty())) {
             Pair p = bfs.poll();
-            Graph g = (Graph)p.getKey();
-            int moves = (int)p.getValue();
-            if(g.value == total) return moves;
-            for(Graph x: g.adj){
-                if(!(visited.contains(x))){
+            Graph g = (Graph) p.getKey();
+            int moves = (int) p.getValue();
+            if (g.value == total)
+                return moves;
+            for (Graph x : g.adj) {
+                if (!(visited.contains(x))) {
                     visited.add(x);
-                    Pair neighbour = new Pair(x, moves+1);
+                    Pair neighbour = new Pair(x, moves + 1);
                     bfs.add(neighbour);
                 }
             }
         }
         return -1;
     }
-}909 Snakes&Ladders{
-
 }
