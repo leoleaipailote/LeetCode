@@ -1,0 +1,26 @@
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a, b) -> Integer.compare(a[0], b[0]));
+        HashSet<Pair<Integer, Integer>> visited = new HashSet<Pair<Integer, Integer>>();
+        pq.add(new int[]{nums1[0] + nums2[0], 0, 0});
+        while(ans.size() < k){
+            List<Integer> curr = new ArrayList<Integer>();
+            int[] min = pq.poll();
+            int i = min[1];
+            int j = min[2];
+            curr.add(nums1[i]);
+            curr.add(nums2[j]);
+            ans.add(curr);
+            if(i + 1 < nums1.length && !(visited.contains(new Pair<Integer, Integer>(i+1, j)))){
+                pq.add(new int[]{nums1[i+1] + nums2[j], i+1, j});
+                visited.add(new Pair<Integer, Integer>(i+1, j));
+            }
+            if(j + 1 < nums2.length && !(visited.contains(new Pair<Integer, Integer>(i, j+1)))){
+                pq.add(new int[]{nums1[i] + nums2[j+1], i, j+1});
+                visited.add(new Pair<Integer, Integer>(i, j+1));
+            }
+        }
+        return ans;
+    }
+}
