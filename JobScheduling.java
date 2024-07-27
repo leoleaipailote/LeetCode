@@ -19,7 +19,7 @@ public class JobScheduling {
 
     public static void main(String[] args) {
         JobScheduling x = new JobScheduling();
-        int[] executionTime = { 3, 4, 1, 7, 6 };
+        int[] executionTime = { 1, 1, 1, 20, 20 };
         System.out.println(x.getMinimumOperations(executionTime, 4, 2));
     }
 }
